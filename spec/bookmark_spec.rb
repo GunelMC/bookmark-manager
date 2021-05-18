@@ -13,4 +13,16 @@ RSpec.describe Bookmark do
       expect(described_class.all).to include("http://www.amazon.com")
     end
   end
+
+  describe '.create ' do
+    it 'has a create method' do
+      expect(described_class).to respond_to(:create).with(1).argument 
+    end
+
+    it 'can store a url in the database' do
+      described_class.create("http://www.medium.com")
+      expect(described_class.all).to include("http://www.medium.com")
+    end
+  end
+
 end
