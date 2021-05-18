@@ -1,7 +1,10 @@
-class Bookmark 
-  @@bookmarks = ["www.google.com", "www.expedia.com"]
-  
+class Bookmark
+
   def self.all
-    @@bookmarks
+    [
+      "www.google.com",
+      "www.amazon.com",
+    ]
   end
+
 end
