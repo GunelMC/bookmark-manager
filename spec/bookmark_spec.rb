@@ -3,25 +3,22 @@ require 'bookmark'
 RSpec.describe Bookmark do
   describe '.all' do
     it 'returns all saved bookmarks' do
-      con = PG.connect(dbname: 'bookmark_manager_test')
-      con.exec("INSERT INTO bookmarks (url) VALUES ('http://www.makersacademy.com');")
-      con.exec("INSERT INTO bookmarks (url) VALUES ('http://www.google.com');")
-      con.exec("INSERT INTO bookmarks (url) VALUES ('http://www.amazon.com');")
-
-      expect(described_class.all).to include("http://www.google.com")
-      expect(described_class.all).to include("http://www.makersacademy.com")
-      expect(described_class.all).to include("http://www.amazon.com")
+      Bookmark.create(url: "http://www.makersacademy.com", title: "Makers Academy")
+      Bookmark.create(url: "http://www.amazon.com", title: "Amazon")
+      Bookmark.create(url: "http://www.google.com", title: "Google")
+      
+      expect(described_class.all.length).to eq 3
+      expect(described_class.all.first.title).to eq "Makers Academy"
+      expect(described_class.all.first.url).to eq "http://www.makersacademy.com"
     end
   end
 
   describe '.create ' do
-    it 'has a create method' do
-      expect(described_class).to respond_to(:create).with(1).argument 
-    end
-
     it 'can store a url in the database' do
-      described_class.create("http://www.medium.com")
-      expect(described_class.all).to include("http://www.medium.com")
+      described_class.create(url: "http://www.medium.com", title: 'Medium')
+      
+      expect(Bookmark.all.first.url).to eq("http://www.medium.com")
+      expect(Bookmark.all.first.title).to eq('Medium')
     end
   end
 
